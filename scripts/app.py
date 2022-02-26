@@ -10,6 +10,8 @@ import datetime
 from display import show_chart
 from build import train
 from folium.plugins import HeatMap
+from single import display_map
+from route import display_route
 
 with open('apikey.txt') as f:
     api_key = f.readline()
@@ -26,7 +28,7 @@ def main():
     )
 
     st.title('Flash-U-Map 🔦 ')
-    pages = ['Home', 'Chart', 'Map']
+    pages = ['Home', 'Chart', 'Locate Me', 'Guide Me']
     choice = st.sidebar.radio('Select Pages', pages)
     
     if choice == 'Home':
@@ -50,51 +52,25 @@ def main():
         pass
         #show_chart()
     
-    elif choice == 'Map':
-        st.subheader('💡 Flash your destination')
+    elif choice == 'Locate Me':
+        st.subheader('💡 Flash your Place')
         default_value = 'Georgetown University'
         start = st.text_input("Where do you want to go?", default_value)
-        #destination = st.text_input("Your Destination", default_value)
         t = st.time_input('When are you going?', datetime.time(12, 00))
 
         if start is not None:
-            GEOCODE_URL = 'https://maps.googleapis.com/maps/api/geocode/json?address='+ start +'&key='+ api_key
-            geo_response = requests.request("GET", GEOCODE_URL)
-            geodata = json.loads(geo_response.text)
+            display_map(start, t)
 
-            if geodata['status'] != 'ZERO_RESULTS':
-                lat = geodata['results'][0]['geometry']['location']['lat']
-                logit = geodata['results'][0]['geometry']['location']['lng']
-        
-                #m = folium.Map(location= [lat, logit], zoom_start = 16)
-                dc_map = folium.Map(location = [lat, logit], control_scale = True, zoom_start = 15)
-                df['count'] = 1
-                df_violent = df[df['crimetype'] == 'Violent']
-                HeatMap(
-                        data = df_violent[['YBLOCK', 'XBLOCK', 'count']].groupby(
-                            ['YBLOCK', 'XBLOCK']).sum().reset_index().values.tolist(),
-                        radius = 8,
-                        max_zoom = 13).add_to(dc_map)
-                folium.Marker(
-                    location=[lat, logit],
-                    popup = start,
-                ).add_to(dc_map)
+    elif choice == 'Guide Me':
+        st.subheader('💡 Flash your Route')
+        default_value = 'Georgetown University'
+        default_value2 = 'National Mall'
+        start = st.text_input("Where do you want to go?", default_value)
+        destination = st.text_input("Your Destination", default_value2)
+        t = st.time_input('When are you going?', datetime.time(12, 00))
 
-                folium_static(dc_map)
-                #folium_static(m)
+        if start is not None:
+            display_route(start, dest, t)
 
-                #gmaps = googlemaps.Client(key = api_key)
-
-                #geocode_result = gmaps.geocode(start)
-                #print(str(geodata['results'][0]['geometry']['location']['lat'])[0:8])
-                #print(str(geodata['results'][0]['geometry']['location']['lng'])[0:8])
-
-                m = train()
-                print(m.predict(pd.DataFrame({'hour': t.hour, 'log' : logit, 'lat' : lat}, index=[0])))
-                result = m.predict(pd.DataFrame({'hour': t.hour, 'log' : logit, 'lat' : lat}, index=[0]))
-                if result[0] == 1:
-                    st.error('Based on the location and the given time, it showed that the location you are heading to could be dangerous.')
-                else:
-                    st.success('💡 The location you are heading to is safe at the time.')
 if __name__ == '__main__':
     main()
