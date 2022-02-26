@@ -6,10 +6,12 @@ from sklearn.metrics import accuracy_score, confusion_matrix, classification_rep
 from sklearn.ensemble import RandomForestClassifier
 #from sklearn.tree import DecisionTreeClassifier
 
-def predict(recorded_data):
-    final_df = pd.read_csv('/Users/zoekim/Desktop/g/Safe-U-Map/scripts/compiled_data.csv')
-    X = final_df.drop('result', 1).values
-    y = final_df['result'].values.astype('int')
+
+def train():
+    final_df = pd.read_csv('compiled_data2.csv')
+    final_df = final_df.drop('Unnamed: 0', axis = 1)
+    X = final_df.iloc[:, :-1]
+    y = final_df.iloc[:, -1]
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.25, random_state=42)
 
@@ -18,8 +20,9 @@ def predict(recorded_data):
     #y_predict = clf_model.predict(X_test)
     #accuracy_score(y_test, y_predict)
 
-    rf = RandomForestClassifier(max_depth=None, max_features=3, n_estimators=15, random_state=2)
+    rf = RandomForestClassifier(max_depth = 2, max_features = 3, n_estimators = 15, random_state = 2)
     rf.fit(X_train, y_train)
 
-    return rf.predict(recorded_data)
+    return rf 
+
 
