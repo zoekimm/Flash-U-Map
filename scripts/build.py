@@ -20,7 +20,7 @@ def train():
     #y_predict = clf_model.predict(X_test)
     #accuracy_score(y_test, y_predict)
 
-    rf = RandomForestClassifier(max_depth = 2, max_features = 3, n_estimators = 15, random_state = 2)
+    rf = RandomForestClassifier(max_depth=None, max_features=3, n_estimators=15, random_state=2)
     rf.fit(X_train, y_train)
 
     return rf 
