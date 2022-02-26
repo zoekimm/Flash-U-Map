@@ -1,3 +1,6 @@
 scripts/apikey.txt
 Pipfile
 Pipfile.lock
+dc_crime_add_vars.csv
+.gitignore
+scripts/compiled_data.csv

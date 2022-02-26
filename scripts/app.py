@@ -7,10 +7,11 @@ import googlemaps
 import pandas as pd
 import numpy as np
 import datetime
+from display import show_chart
 
 with open('apikey.txt') as f:
     api_key = f.readline()
-    f.close
+    f.close()
 
 def main():
 
@@ -19,10 +20,16 @@ def main():
     choice = st.sidebar.radio('Select Pages', pages)
     
     if choice == 'Home':
-        st.subheader('What is Safe-U-Map?')
+        #st.subheader('What is Safe-U-Map?')
+        col1, col2, col3 = st.columns(3)
+
+        col1.metric('Number of Cases', "70 °F", "1.2 °F")
+        col2.metric('Crime Rate', "7", "-8%")
+        col3.metric('ss', "86%", "4%")
 
     elif choice == 'Chart':
         pass
+        #show_chart()
     
     elif choice == 'Map':
         st.markdown('Map')
@@ -46,13 +53,13 @@ def main():
                 gmaps = googlemaps.Client(key = api_key)
 
                 geocode_result = gmaps.geocode(start)
-                print(geodata['results'][0]['geometry']['location']['lat'])
+                print(str(geodata['results'][0]['geometry']['location']['lat'])[0:7])
 
                 def get_user_data():
                     record_data = {
                         'hour' : t.hour,
                         'lat' : lat,
-                        'log' : log
+                        'log' : long
                     }
                     return pd.DataFrame(record_data, index=[0])
 
