@@ -8,6 +8,7 @@ import pandas as pd
 import numpy as np
 import datetime
 from display import show_chart
+from build import train
 
 with open('apikey.txt') as f:
     api_key = f.readline()
@@ -45,24 +46,21 @@ def main():
 
             if geodata['status'] != 'ZERO_RESULTS':
                 lat = geodata['results'][0]['geometry']['location']['lat']
-                long = geodata['results'][0]['geometry']['location']['lng']
+                logit = geodata['results'][0]['geometry']['location']['lng']
         
-                m = folium.Map(location= [lat, long], zoom_start = 16)
+                m = folium.Map(location= [lat, logit], zoom_start = 16)
                 folium_static(m)
 
                 gmaps = googlemaps.Client(key = api_key)
 
                 geocode_result = gmaps.geocode(start)
-                print(str(geodata['results'][0]['geometry']['location']['lat'])[0:7])
+                print(str(geodata['results'][0]['geometry']['location']['lat'])[0:8])
+                print(str(geodata['results'][0]['geometry']['location']['lng'])[0:8])
 
-                def get_user_data():
-                    record_data = {
-                        'hour' : t.hour,
-                        'lat' : lat,
-                        'log' : long
-                    }
-                    return pd.DataFrame(record_data, index=[0])
-
+                user_data = pd.DataFrame()
+                
+                m = train()
+                print(m.predict(pd.DataFrame({'hour': t.hour, 'log' : logit, 'lat' : lat}, index=[0])))
 
 if __name__ == '__main__':
     main()
