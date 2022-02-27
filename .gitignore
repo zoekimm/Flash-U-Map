@@ -3,6 +3,4 @@ Pipfile
 Pipfile.lock
 dc_crime_add_vars.csv
 .gitignore
-scripts/compiled_data.csv
-scripts/compiled_data2.csv
-dataset/compiled_data.csv
+.DS_Store
