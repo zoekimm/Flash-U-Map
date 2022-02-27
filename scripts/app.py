@@ -11,6 +11,7 @@ from display import show_chart
 from build import train
 from folium.plugins import HeatMap
 from single import display_map
+import seaborn as sns
 from route import display_route
 
 with open('apikey.txt') as f:
@@ -28,8 +29,8 @@ def main():
     )
 
     st.title('Flash-U-Map 🔦 ')
-    pages = ['Home', 'Chart', 'Locate Me', 'Guide Me']
-    choice = st.sidebar.radio('Select Pages', pages)
+    pages = ['Home', 'At a Glance', 'Locate Me']
+    choice = st.sidebar.radio('💡Flash💡', pages)
     
     if choice == 'Home':
         #st.subheader('What is Safe-U-Map?')
@@ -38,19 +39,15 @@ def main():
         col2.metric('Property Crime', "3272 Cases", "7%")
         col3.metric('All Crime', "3971 Cases", "10%")
 
-        st.subheader('💡 At a Glance')
+        st.subheader('💡 Lighting You Up; Flashing You')
+        st.checkbox('You can enter the estimated time and location')
+        st.checkbox('You can figure out whether the place is likely safe or not')
+        st.checkbox('You can get daily updates of statistics for your city')
+        st.checkbox('You can see the trend through different graphs')
 
-        dc_map = folium.Map(location = [38.9072, -77.0369], control_scale = True, zoom_start = 14)
-        df['count'] = 1
-        df_violent = df[df['crimetype'] == 'Violent']
-        HeatMap(data = df_violent[['YBLOCK', 'XBLOCK', 'count']].groupby(
-                ['YBLOCK', 'XBLOCK']).sum().reset_index().values.tolist(),
-                radius = 8,max_zoom = 13).add_to(dc_map)
-        folium_static(dc_map)
-
-    elif choice == 'Chart':
-        pass
-        #show_chart()
+    elif choice == 'At a Glance':
+        #pass
+        show_chart()
     
     elif choice == 'Locate Me':
         st.subheader('💡 Flash your Place')
@@ -70,7 +67,8 @@ def main():
         t = st.time_input('When are you going?', datetime.time(12, 00))
 
         if start is not None:
-            display_route(start, dest, t)
+            #display_route(start, destination, t)
+            pass
 
 if __name__ == '__main__':
     main()
