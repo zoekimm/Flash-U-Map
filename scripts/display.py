@@ -11,8 +11,8 @@ import requests
 
 import zipfile
 
-zf = zipfile.ZipFile('/Users/zoekim/Desktop/g/Flash-U-Map/dataset/dc_crime_add_vars.csv.zip') 
-df = pd.read_csv(zf.open('dc_crime_add_vars.csv'))
+zf = zipfile.ZipFile('/dataset/dc_crime_add_vars.csv.zip') 
+df = pd.read_csv(zf.open('/dataset/dc_crime_add_vars.csv'))
 
 def show_chart():
 
