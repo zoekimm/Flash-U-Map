@@ -6,8 +6,13 @@ import seaborn as sns
 import folium
 from folium.plugins import HeatMap
 from streamlit_folium import folium_static
+import zipfile
+import requests
 
-df = pd.read_csv('/Users/zoekim/Desktop/g/Flash-U-Map/dataset/dc_crime_add_vars.csv')
+import zipfile
+
+zf = zipfile.ZipFile('/Users/zoekim/Desktop/g/Flash-U-Map/dataset/dc_crime_add_vars.csv.zip') 
+df = pd.read_csv(zf.open('dc_crime_add_vars.csv'))
 
 def show_chart():
 

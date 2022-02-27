@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from itertools import chain
 
-df = pd.read_csv('/content/dc_crime_add_vars.csv')
+df = pd.read_csv('/Users/zoekim/Desktop/g/Flash-U-Map/dataset/dc_crime_add_vars.csv')
 
 def get_loc(x):
   num = str(x)
