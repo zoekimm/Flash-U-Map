@@ -7,7 +7,9 @@ import folium
 from folium.plugins import HeatMap
 from streamlit_folium import folium_static
 import zipfile
-import requests
+from pathlib import Path
+
+zip_file_name = Path(__file__).parents[1] / 'dc_crime_add_vars.csv.zip'
 
 import zipfile
 
