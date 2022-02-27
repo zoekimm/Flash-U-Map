@@ -13,7 +13,7 @@ zip_file_name = Path(__file__).parents[1] / 'dc_crime_add_vars.csv.zip'
 
 import zipfile
 
-zf = zipfile.ZipFile('dc_crime_add_vars.csv.zip') 
+zf = zipfile.ZipFile(zip_file_name) 
 df = pd.read_csv(zf.open('dc_crime_add_vars.csv'))
 
 def show_chart():
